@@ -1,0 +1,171 @@
+/* Viewer-only behavior is isolated here so site-wide selectors stay auditable. */
+
+/* Match right/bottom insets to the native 6px gap between report and share. */
+html[data-mp-viewer="true"][data-mp-night="on"] [class*="_rightCol_"] > [class*="_buttonRow_"] {
+  padding-right: 6px !important;
+  padding-bottom: 6px !important;
+  box-sizing: border-box;
+}
+
+/* Hide viewer scrollbars without disabling wheel, key or touch scrolling. */
+html[data-mp-viewer="true"],
+html[data-mp-viewer="true"] body {
+  overflow-x: hidden !important;
+}
+
+html[data-mp-viewer="true"],
+html[data-mp-viewer="true"] body,
+html[data-mp-viewer="true"] * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+html[data-mp-viewer="true"]::-webkit-scrollbar,
+html[data-mp-viewer="true"] body::-webkit-scrollbar,
+html[data-mp-viewer="true"] *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Episode history: unread chapters stay crisp; read chapters recede clearly. */
+html[data-mp-night="on"] [class*="_item_"][class*="_itemRead_"] {
+  background-color: #1b1b1b !important;
+}
+
+html[data-mp-night="on"] [class*="_itemRead_"] :is(
+  [class*="_itemNumber_"],
+  [class*="_itemTitle_"],
+  [class*="_metaText_"],
+  [class*="_commentCount_"],
+  [class*="_purchaseLabelPurchased_"]
+) {
+  color: #8d8d8d !important;
+}
+
+html[data-mp-night="on"] [class*="_itemRead_"] [class*="_metaGroup_"] {
+  color: #838383 !important;
+}
+
+html[data-mp-night="on"] [class*="_item_"]:not([class*="_itemRead_"]) [class*="_purchaseLabelBuy_"] {
+  color: var(--mp-night-accent-strong) !important;
+}
+
+/* Last-read folds ship as inline light-theme SVGs in the episode list and TOC. */
+html[data-mp-night="on"] [class*="_bookmarkCorner_"] path[fill="#DEDEDE"],
+html[data-mp-night="on"] [class*="_lastReadIcon_"] path[fill="#D1D1D1"] {
+  fill: #454545 !important;
+}
+
+html[data-mp-night="on"] [class*="_bookmarkCorner_"] path[fill="white"],
+html[data-mp-night="on"] [class*="_lastReadIcon_"] path[fill="white"] {
+  fill: var(--mp-night-surface) !important;
+}
+
+/* Keep the gutter around the narrower TOC card transparent. */
+html[data-mp-viewer="true"][data-mp-night="on"] :is(
+  [class*="_sidebar_"],
+  [class*="_sidebarInner_"],
+  [class*="_sidebarClip_"],
+  [class*="_sidebarColumn_"]
+):has([class*="_tocSection_"]) {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  overflow: visible;
+}
+
+/* Darken viewer chrome, never the user-controlled reading canvas. */
+html[data-mp-night="on"] [class*="_viewerSection_"] {
+  background-color: var(--mp-night-surface) !important;
+  border-color: var(--mp-night-border) !important;
+}
+
+/* The outlined settings button has its own white fill; cover it before scanning. */
+html[data-mp-night="on"] button[class*="_toolbarBtnOutlined_"][aria-label="설정"] {
+  background: var(--mp-night-raised) !important;
+  color: var(--mp-night-text) !important;
+  border-color: var(--mp-night-border) !important;
+  box-shadow: none !important;
+}
+
+html[data-mp-night="on"] button[class*="_toolbarBtnOutlined_"][aria-label="설정"] [class*="_toolbarBtnLabel_"] {
+  color: inherit !important;
+}
+
+html[data-mp-night="on"] button[class*="_toolbarBtnOutlined_"][aria-label="설정"]:hover {
+  background: var(--mp-night-hover) !important;
+}
+
+/* Only settings controls; color swatches and theme/skin previews stay native. */
+html[data-mp-night="on"] :is(
+  button[class*="_settingsCounterBtn_"],
+  button[class*="_settingsDropdown_"]
+) {
+  background: var(--mp-night-raised) !important;
+  color: var(--mp-night-text) !important;
+  border-color: var(--mp-night-border) !important;
+}
+
+html[data-mp-night="on"] :is(
+  button[class*="_settingsCounterBtn_"],
+  button[class*="_settingsDropdown_"]
+):not(:disabled):hover {
+  background: var(--mp-night-hover) !important;
+}
+
+/* Episode navigation is outside the reading canvas and can load after the scan. */
+html[data-mp-night="on"] button[class*="_episodeNavBtn_"] {
+  background: var(--mp-night-surface) !important;
+  color: var(--mp-night-text) !important;
+  border-color: var(--mp-night-border) !important;
+}
+
+html[data-mp-night="on"] button[class*="_episodeNavBtn_"] span {
+  color: inherit !important;
+}
+
+html[data-mp-night="on"] button[class*="_episodeNavBtn_"] svg path[stroke] {
+  stroke: currentColor !important;
+}
+
+html[data-mp-night="on"] button[class*="_episodeNavBtn_"]:disabled {
+  color: var(--mp-night-text-disabled) !important;
+}
+
+html[data-mp-night="on"] button[class*="_episodeNavBtn_"]:not(:disabled):hover {
+  background: var(--mp-night-hover) !important;
+}
+
+/* Selected viewer controls remain distinct without the stock electric blue. */
+html[data-mp-viewer="true"][data-mp-night="on"] [class*="_viewerSection_"] :is(
+  button[aria-pressed="true"],
+  [role="switch"][aria-checked="true"]
+) {
+  background-color: var(--mp-night-control-active) !important;
+  color: var(--mp-night-text) !important;
+}
+
+html[data-mp-viewer="true"][data-mp-night="on"] [class*="_viewerSection_"] :is(
+  button[aria-pressed="true"],
+  [role="switch"][aria-checked="true"]
+):hover {
+  background-color: var(--mp-night-control-active-hover) !important;
+}
+
+html[data-mp-viewer="true"][data-mp-night="on"] [class*="_viewerSection_"] :is(
+  button[aria-pressed="true"],
+  [role="switch"][aria-checked="true"]
+):active {
+  background-color: var(--mp-night-control-active-pressed) !important;
+}
+
+html[data-mp-night="on"] [class*="_tocToggle_"] {
+  background-color: var(--mp-night-raised) !important;
+  color: var(--mp-night-text) !important;
+  border-color: var(--mp-night-border) !important;
+}
+
+html[data-mp-night="on"] [class*="_focusDimOverlay_"] {
+  background: rgb(0 0 0 / var(--mp-night-focus-opacity)) !important;
+}

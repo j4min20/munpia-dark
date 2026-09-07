@@ -1,0 +1,628 @@
+:root[data-mp-night="on"] {
+  color-scheme: dark;
+  --mp-night-bg: #0f0f0f;
+  --mp-night-surface: #212121;
+  --mp-night-raised: #272727;
+  --mp-night-hover: #303030;
+  --mp-night-border: #3f3f3f;
+  --mp-night-border-soft: #303030;
+  --mp-night-text: #f1f1f1;
+  --mp-night-text-secondary: #aaaaaa;
+  --mp-night-text-disabled: #717171;
+  --mp-night-accent: #3ea6ff;
+  --mp-night-accent-strong: #65b8ff;
+  --mp-night-control-active: #3b5266;
+  --mp-night-control-active-hover: #465f75;
+  --mp-night-control-active-pressed: #324758;
+  --mp-night-danger: #ff6b6b;
+  --mp-night-focus-opacity: 0.75;
+  background: var(--mp-night-bg) !important;
+}
+
+/* Keep layout stable even during native-color scans, which temporarily disable
+   color overrides. The site's fixed drawer still owns its slide animation. */
+html[data-mp-overlay-drawer="true"][data-side-search-open] body {
+  padding-left: 0 !important;
+}
+
+html[data-mp-overlay-drawer="true"] [class*="_drawerWrapper_"] {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Home free-today ranking: retain the native compact height and top ten only. */
+html[data-mp-night="on"] [class*="_novelListBox_"]:has(a[href*="/best/today?"]) > [class*="_novelListInner_"] {
+  height: 100% !important;
+  transition: none !important;
+}
+
+html[data-mp-night="on"] [class*="_novelListBox_"]:has(a[href*="/best/today?"]) > [class*="_expandBtn_"],
+html[data-mp-night="on"] [class*="_novelListBox_"]:has(a[href*="/best/today?"]) ul[class*="_novelList_"] > li:nth-child(n+11) {
+  display: none !important;
+}
+
+/* Keep site-owned guides intact so disabling the theme restores them. */
+html[data-mp-night="on"][data-mp-preference="true"] [data-mp-night-guide="true"] {
+  display: none !important;
+}
+
+/* Black prepaint: reveal the document only after its first dark scan. */
+html[data-mp-night="on"]:not([data-mp-night-ready="true"]) {
+  background: #0f0f0f !important;
+}
+
+html[data-mp-night="on"]:not([data-mp-night-ready="true"]) body {
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+html[data-mp-night="on"],
+html[data-mp-night="on"] body,
+html[data-mp-night="on"] #root,
+html[data-mp-night="on"] .app {
+  background-color: var(--mp-night-bg) !important;
+  color: var(--mp-night-text) !important;
+}
+
+html[data-mp-night="on"] body {
+  min-height: 100vh;
+}
+
+/* Runtime-classified surfaces: resilient to Munpia's hashed CSS module names. */
+html[data-mp-night="on"] [data-mp-night-surface="base"] {
+  background-color: var(--mp-night-bg) !important;
+}
+
+html[data-mp-night="on"] [data-mp-night-surface="surface"] {
+  background-color: var(--mp-night-surface) !important;
+}
+
+html[data-mp-night="on"] [data-mp-night-surface="raised"] {
+  background-color: var(--mp-night-raised) !important;
+}
+
+/* React inserts the home skeleton after first paint; replace its light fill before rendering. */
+html[data-mp-night="on"] [data-mp-night-skeleton="true"] {
+  background: #292929 none !important;
+  border-color: #292929 !important;
+}
+
+html[data-mp-night="on"] [data-mp-night-text="primary"] {
+  color: var(--mp-night-text) !important;
+}
+
+html[data-mp-night="on"] [data-mp-night-text="muted"] {
+  color: var(--mp-night-text-secondary) !important;
+}
+
+html[data-mp-night="on"] [data-mp-night-border="soft"] {
+  border-color: var(--mp-night-border-soft) !important;
+}
+
+/* Stable semantic surfaces cover the first paint before the runtime scan. */
+html[data-mp-night="on"] :where(header, footer, [role="dialog"], [role="menu"], [role="listbox"]) {
+  background-color: var(--mp-night-surface) !important;
+  color: var(--mp-night-text) !important;
+  border-color: var(--mp-night-border) !important;
+}
+
+html[data-mp-night="on"] :where(input:not([type="color"]), textarea, select, option) {
+  background-color: var(--mp-night-raised) !important;
+  color: var(--mp-night-text) !important;
+  border-color: var(--mp-night-border) !important;
+  caret-color: var(--mp-night-text) !important;
+}
+
+html[data-mp-night="on"] :where(input, textarea)::placeholder {
+  color: var(--mp-night-text-secondary) !important;
+  opacity: 1;
+}
+
+html[data-mp-night="on"] :where(input[type="checkbox"], input[type="radio"]) {
+  accent-color: var(--mp-night-accent);
+}
+
+/* One shared unchecked style for library and notification checkboxes. */
+html[data-mp-night="on"] :is(
+  [class*="checkbox-module_check_box-"] > input[type="checkbox"]:not(:checked)
+    + [class*="checkbox-module_check-icon-"],
+  .input-check > input[type="checkbox"]:not(:checked) + .check-icon
+) {
+  position: relative;
+  box-sizing: border-box;
+  width: 16px !important;
+  height: 16px !important;
+  flex: 0 0 16px;
+  background: #292929 none !important;
+  border: 1px solid #666666 !important;
+  border-radius: 4px !important;
+}
+
+html[data-mp-night="on"] :is(
+  [class*="checkbox-module_check_box-"] > input[type="checkbox"]:not(:checked)
+    + [class*="checkbox-module_check-icon-"],
+  .input-check > input[type="checkbox"]:not(:checked) + .check-icon
+)::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 4px;
+  height: 7px;
+  border: solid #777777;
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+
+html[data-mp-night="on"] .input-check > input[type="checkbox"]:not(:checked) + .check-icon svg {
+  display: none !important;
+}
+
+html[data-mp-night="on"] :where(button, [role="button"], a):focus-visible {
+  outline: 2px solid var(--mp-night-accent) !important;
+  outline-offset: 2px;
+}
+
+html[data-mp-night="on"] :where(button, [role="button"])[data-mp-night-surface]:not(:disabled):hover {
+  background-color: var(--mp-night-hover);
+}
+
+/* Remote drawer arrow: never let the native white disk hide its light glyph. */
+html[data-mp-night="on"] button[class*="_wingOpenCloseBtn_"] > [class*="_wingOpenCloseInner_"] {
+  background: transparent !important;
+  color: var(--mp-night-text) !important;
+  border-color: #777777 !important;
+  box-shadow: none !important;
+}
+
+html[data-mp-night="on"] button[class*="_wingOpenCloseBtn_"] [class*="_wingOpenCloseIcon_"] svg {
+  fill: none !important;
+  color: var(--mp-night-text) !important;
+}
+
+html[data-mp-night="on"] button[class*="_wingOpenCloseBtn_"] [class*="_wingOpenCloseIcon_"] svg path[stroke] {
+  stroke: var(--mp-night-text) !important;
+}
+
+/* Header utilities keep their native tooltip, without the white hover tile. */
+html[data-mp-night="on"] header :is(
+  a[class*="_iconButton_"],
+  button[class*="_profileBtn_"]
+):hover {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-mp-night="on"] :where(button:disabled, [aria-disabled="true"]) {
+  color: var(--mp-night-text-disabled) !important;
+}
+
+html[data-mp-night="on"] :where(hr, [role="separator"]) {
+  border-color: var(--mp-night-border) !important;
+  background-color: var(--mp-night-border) !important;
+}
+
+html[data-mp-night="on"] :where(table, thead, tbody, tr, th, td) {
+  border-color: var(--mp-night-border) !important;
+}
+
+html[data-mp-night="on"] :where(th) {
+  background-color: var(--mp-night-raised) !important;
+}
+
+html[data-mp-night="on"] :where(mark) {
+  background: #705a00 !important;
+  color: #fff4bd !important;
+}
+
+html[data-mp-night="on"] ::selection {
+  background: #245e8c;
+  color: #ffffff;
+}
+
+/* Keep covers, banners and profile photos untouched. */
+html[data-mp-night="on"] :where(img, picture, video, canvas) {
+  filter: none;
+}
+
+/* Preserve each UI icon's shape and only lift its dark paint to white. */
+html[data-mp-night="on"] [data-mp-night-icon-fill="light"] {
+  fill: var(--mp-night-text) !important;
+}
+
+html[data-mp-night="on"] [data-mp-night-icon-stroke="light"] {
+  stroke: var(--mp-night-text) !important;
+}
+
+html[data-mp-night="on"] [data-mp-night-icon-image="light"] {
+  filter: brightness(0) invert(1) !important;
+}
+
+html[data-mp-night="on"] header a[href*="/novel-adult-list"] [class*="_adultBadge_"] {
+  display: none !important;
+}
+
+/* Adult mode: a visible gray track, with color reserved for the 19 circle. */
+html[data-mp-night="on"] button[aria-label="성인 콘텐츠 토글"] {
+  background-color: #4a4a4a !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+html[data-mp-night="on"] button[aria-label="성인 콘텐츠 토글"] [class*="_toggleThumb_"] {
+  border: 0 !important;
+  border-radius: 50% !important;
+  overflow: hidden;
+}
+
+html[data-mp-night="on"] button[aria-label="성인 콘텐츠 토글"] svg rect[fill="white"] {
+  fill: #ffffff !important;
+}
+
+html[data-mp-night="on"] button[aria-label="성인 콘텐츠 토글"] svg rect[stroke] {
+  stroke: #777777 !important;
+}
+
+html[data-mp-night="on"] button[aria-label="성인 콘텐츠 토글"]:not([class*="_toggle19Off_"]) svg rect[stroke] {
+  stroke: #ff3b3b !important;
+}
+
+html[data-mp-night="on"] button[aria-label="성인 콘텐츠 토글"] svg path[fill="black"] {
+  fill: #000000 !important;
+}
+
+html[data-mp-night="on"] :is(button, a, [role="button"], [role="switch"]) svg {
+  color: var(--mp-night-text);
+}
+
+html[data-mp-night="on"] :is(button, a, [role="button"], [role="switch"]) svg :is(
+  [fill="#000"],
+  [fill="#000000"],
+  [fill="black"]
+) {
+  fill: var(--mp-night-text) !important;
+}
+
+html[data-mp-night="on"] :is(button, a, [role="button"], [role="switch"]) svg :is(
+  [stroke="#000"],
+  [stroke="#000000"],
+  [stroke="black"]
+) {
+  stroke: var(--mp-night-text) !important;
+}
+
+/* Keep the blue M untouched and recolor only the black UNPIA lettering. */
+html[data-mp-night="on"] header a[href="https://www.munpia.com"] :where(img, svg),
+html[data-mp-night="on"] header a[href="https://www.munpia.com/"] :where(img, svg) {
+  filter: none !important;
+}
+
+html[data-mp-night="on"] header a[href="https://www.munpia.com"] svg path[fill="black"],
+html[data-mp-night="on"] header a[href="https://www.munpia.com/"] svg path[fill="black"] {
+  fill: var(--mp-night-text) !important;
+}
+
+/* Legacy header renders the full logo as a background image on an empty link. */
+html[data-mp-night="on"] a[aria-label="문피아 홈"][class*="headernew-module_logo-ci-"] {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* Scrollbars match YouTube's restrained dark chrome. */
+html[data-mp-night="on"] * {
+  scrollbar-color: #717171 var(--mp-night-bg);
+}
+
+html[data-mp-night="on"] *::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+html[data-mp-night="on"] *::-webkit-scrollbar-track {
+  background: var(--mp-night-bg);
+}
+
+html[data-mp-night="on"] *::-webkit-scrollbar-thumb {
+  background: #717171;
+  border: 3px solid var(--mp-night-bg);
+  border-radius: 999px;
+}
+
+html[data-mp-night="on"] *::-webkit-scrollbar-thumb:hover {
+  background: #909090;
+}
+
+/* Content hierarchy: title leads very slightly; author, genre and metadata recede. */
+html[data-mp-night="on"] [data-mp-night-content="title"] {
+  color: #dedede !important;
+  font-size: 1em !important;
+  font-weight: 550 !important;
+  letter-spacing: 0;
+}
+
+/* Give compact horizontal cover cards a trace of breathing room below the artwork. */
+html[data-mp-night="on"] main [class*="_card_"] > [class*="_meta_"]:has(
+  > [class*="_novelTitle_"]
+):has(
+  > [class*="_author_"]
+) {
+  box-sizing: border-box;
+  padding-inline-start: 3px !important;
+  padding-block-end: 3px !important;
+}
+
+html[data-mp-night="on"] :is(
+  [data-mp-night-content="author"],
+  [data-mp-night-content="meta"]
+) {
+  color: var(--mp-night-text-secondary) !important;
+  font-weight: 400 !important;
+}
+
+/* Structural class names do not prove a surface exists. Paint is assigned only
+   by the native-background classifier; retain text and border corrections. */
+html[data-mp-night="on"] :is(
+  [class*="_drawerPanel_"],
+  [class*="_panelHeader_"],
+  [class*="_filterPanel_"],
+  [class*="_listPanel_"],
+  [class*="_paginationBar_"],
+  [class*="_card_"],
+  [class*="_tocSection_"],
+  [class*="_headerRow_"],
+  [class*="_toolbar_"],
+  [class*="_modal_"],
+  [class*="_popup_"],
+  [class*="_dropdown_"],
+  [class*="_menu_"],
+  [class*="_searchbar_"]
+) {
+  color: var(--mp-night-text) !important;
+  border-color: var(--mp-night-border) !important;
+}
+
+/* Keep the site's original rounded silhouettes and contain nested borders. */
+html[data-mp-night="on"] :is(
+  [class*="_card_"],
+  [class*="_profileCard_"],
+  [class*="_bannerCard_"]
+) {
+  overflow: hidden;
+  background-clip: padding-box;
+}
+
+/* Preserve existing rail geometry without inventing backgrounds on wrappers. */
+html[data-mp-night="on"] :is(aside, [class*="_sidebar_"]) {
+  border-color: var(--mp-night-border-soft) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  background-clip: padding-box;
+  row-gap: 28px !important;
+}
+
+html[data-mp-night="on"] :is(aside, [class*="_sidebar_"]) > * {
+  border-radius: 12px !important;
+  overflow: hidden;
+  background-clip: padding-box;
+}
+
+/* Lower home lists keep native horizontal geometry, without a gray backing plate. */
+html[data-mp-night="on"] aside[class*="_sidebar_"]:has(> [class*="_userWrapper_"]):has(> [class*="_goldBanner_"]) > [class*="_wrapper_"] {
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible;
+}
+
+/* Restore the visible pill outline that disappeared on the dark search field. */
+html[data-mp-night="on"] :is(
+  [class*="_searchbar_"],
+  [class*="searchbar-module_searchbar-"]
+) {
+  border-radius: 999px !important;
+  box-shadow: inset 0 0 0 1px var(--mp-night-border) !important;
+}
+
+html[data-mp-night="on"] input[placeholder*="작품명"] {
+  border: 0 !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+html[data-mp-night="on"] :is(
+  [class*="_searchbar_"],
+  [class*="searchbar-module_search-wrapper-"]
+) {
+  overflow: hidden;
+}
+
+/* Rail fallback must not override classified title/author hierarchy. */
+html[data-mp-night="on"] :where(aside, [class*="_sidebar_"]) :where(
+  p,
+  span,
+  strong,
+  b,
+  em,
+  small,
+  [class*="_title_"],
+  [class*="_description_"],
+  [class*="_caption_"],
+  [class*="_pagination_"]
+) {
+  color: var(--mp-night-text-secondary) !important;
+}
+
+html[data-mp-night="on"] :is(aside, [class*="_sidebar_"]) :where(
+  h1,
+  h2,
+  h3,
+  h4,
+  strong,
+  b
+) {
+  color: var(--mp-night-text) !important;
+}
+
+/* Preserve each rounded card outline inside the rounded wrapper. */
+html[data-mp-night="on"] :is(aside, [class*="_sidebar_"]) > :is(
+  [class*="_card_"],
+  [data-mp-night-border="soft"]
+) {
+  border-color: var(--mp-night-border-soft) !important;
+  box-shadow: none !important;
+}
+
+/* Keep the campaign artwork untouched; lift only its backing card for black copy. */
+html[data-mp-night="on"] header [class*="_floatBanner_"] {
+  display: block !important;
+  opacity: 1;
+}
+
+html[data-mp-night="on"] header [class*="_floatBanner_"] [class*="_card_"] {
+  background-color: #858585 !important;
+}
+
+html[data-mp-night="on"] header [class*="_floatBanner_"] img {
+  filter: none !important;
+}
+
+html[data-mp-night="on"] :is(
+  [class*="_toggleGroup_"],
+  [class*="_episodeItemActive_"],
+  [class*="_episodeItemRead_"],
+  [class*="_active_"],
+  [class*="_selected_"]
+) {
+  background-color: var(--mp-night-raised) !important;
+}
+
+html[data-mp-night="on"] :is(
+  [class*="_active_"],
+  [class*="_selected_"],
+  [aria-current="page"],
+  [aria-selected="true"],
+  [aria-pressed="true"]
+) {
+  color: var(--mp-night-accent-strong) !important;
+}
+
+/* Legacy library pages use a different React/CSS-module generation. */
+html[data-mp-night="on"] :is(
+  [class*="headernew-module_munpia-header-"],
+  [class*="headernew-module_header-wrap-"],
+  [class*="headernew-module_nav-wrap-"],
+  [class*="searchbar-module_searchbar-"],
+  [class*="lnbprefer-module_active-"],
+  [class*="preferlist-module_prefer-list-"] > li
+) {
+  background-color: var(--mp-night-surface) !important;
+  color: var(--mp-night-text) !important;
+  border-color: var(--mp-night-border) !important;
+}
+
+/* Soften old light box shadows without flattening hierarchy. */
+html[data-mp-night="on"] [data-mp-night-surface] {
+  box-shadow: none;
+  background-clip: padding-box;
+}
+
+html[data-mp-night="on"] :where([role="dialog"], [role="menu"], [role="listbox"]) {
+  box-shadow: 0 12px 32px rgb(0 0 0 / 45%) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-mp-night="on"] *,
+  html[data-mp-night="on"] *::before,
+  html[data-mp-night="on"] *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Shared outlined buttons, including viewer TOC controls, before classification. */
+html[data-mp-night="on"] :is(
+  button[class*="_button_"][class*="_linePri_"],
+  button[class*="_button_"][class*="_lineSec_"]
+) {
+  background: var(--mp-night-raised) !important;
+  color: var(--mp-night-text) !important;
+  border-color: var(--mp-night-border) !important;
+  box-shadow: none !important;
+}
+
+html[data-mp-night="on"] :is(
+  button[class*="_button_"][class*="_linePri_"],
+  button[class*="_button_"][class*="_lineSec_"]
+):not(:disabled):not([aria-disabled="true"]):hover {
+  background: var(--mp-night-hover) !important;
+}
+
+html[data-mp-night="on"] :is(
+  button[class*="_button_"][class*="_linePri_"],
+  button[class*="_button_"][class*="_lineSec_"]
+):is(:disabled, [aria-disabled="true"]) {
+  color: var(--mp-night-text-disabled) !important;
+}
+
+html[data-mp-night="on"] body:has([class*="_infoUpper_"]) [class*="_inputWrap_"]:has(input[placeholder="검색어를 입력하세요."]) {
+  background: var(--mp-night-raised) !important;
+  border-color: var(--mp-night-border) !important;
+  box-shadow: none !important;
+}
+
+html[data-mp-night="on"] [class*="_infoUpper_"] [class*="_infoRows_"] :is(
+  [class*="_infoLabel_"], [class*="_infoValue_"]
+) {
+  color: var(--mp-night-text-secondary) !important;
+  font-weight: 400 !important;
+}
+
+/* Profile identity follows broad sidebar rules so its hierarchy stays intentional. */
+html[data-mp-night="on"] :is(
+  [class*="_nicknameText_"],
+  [class*="_popoverNickname_"]
+) {
+  color: #ffffff !important;
+  font-size: 16px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.1px;
+}
+
+html[data-mp-night="on"] :is(
+  [class*="_goldRow_"] > span,
+  [class*="_goldLink_"] > span,
+  [class*="_popoverGoldLabel_"],
+  [class*="_popoverGoldAmount_"]
+) {
+  color: #ffd54a !important;
+  background-image: linear-gradient(180deg, #fff4a8 0%, #ffd029 48%, #d99000 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 650 !important;
+  text-shadow: 0 0 10px rgba(255, 190, 32, 0.2);
+}
+
+html[data-mp-night="on"] :is(
+  [class*="_goldLink_"] > span,
+  [class*="_popoverGoldAmount_"]
+) {
+  font-weight: 750 !important;
+}
+
+html[data-mp-night="on"] [data-mp-night-level-digit] {
+  font-weight: 700 !important;
+  text-shadow: 0 0 8px currentColor;
+}
+
+html[data-mp-night="on"] [data-mp-night-level-digit="1"] { color: #ff5964 !important; }
+html[data-mp-night="on"] [data-mp-night-level-digit="2"] { color: #ff9f43 !important; }
+html[data-mp-night="on"] [data-mp-night-level-digit="3"] { color: #ffe066 !important; }
+html[data-mp-night="on"] [data-mp-night-level-digit="4"] { color: #5ee28a !important; }
+html[data-mp-night="on"] [data-mp-night-level-digit="5"] { color: #43c7ff !important; }
+html[data-mp-night="on"] [data-mp-night-level-digit="6"] { color: #7c83ff !important; }
+html[data-mp-night="on"] [data-mp-night-level-digit="7"] { color: #c67cff !important; }
+html[data-mp-night="on"] [data-mp-night-level-digit="8"] { color: #ff4fd8 !important; }
+html[data-mp-night="on"] [data-mp-night-level-digit="9"] { color: #a8f04b !important; }
+html[data-mp-night="on"] [data-mp-night-level-digit="0"] { color: #38f2d0 !important; }
